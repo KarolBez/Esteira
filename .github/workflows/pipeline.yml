@@ -1,0 +1,40 @@
+name: Pipeline Simples 3 Ambientes
+
+on:
+  push:
+    branches:
+      - develop
+      - release
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm ci
+      - run: npm run build
+
+  dev:
+    if: github.ref == 'refs/heads/develop'
+    needs: build
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - run: echo "Deploy DEV"
+
+  hml:
+    if: github.ref == 'refs/heads/release'
+    needs: build
+    runs-on: ubuntu-latest
+    environment: hml
+    steps:
+      - run: echo "Deploy HML"
+
+  prd:
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    environment: prd
+    steps:
+      - run: echo "Deploy PRD"
