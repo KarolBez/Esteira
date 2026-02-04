@@ -35,6 +35,6 @@ jobs:
     if: github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
-    environment: prd
+    environment: production
     steps:
       - run: echo "Deploy PRD"
